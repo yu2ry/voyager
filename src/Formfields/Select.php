@@ -19,7 +19,8 @@ class Select extends Formfield
     public function listOptions(): array
     {
         return [
-            'multiple'    => false,
+            'multiple'  => false,
+            'options'   => [],
         ];
     }
 

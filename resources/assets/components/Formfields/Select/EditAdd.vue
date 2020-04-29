@@ -38,12 +38,11 @@ export default {
                     this.selected = JSON.parse(this.value);
                 } catch (e) {
                     this.selected = [];
-                    console.log(this.isArray(this.value));
                 }
             } else {
                 this.selected = this.value;
             }
-        }
+        },
     },
     mounted: function () {
         this.parseInput();

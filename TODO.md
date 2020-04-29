@@ -8,9 +8,9 @@ Instead, they are listed here:
 - Media manager should not upload all files simultaneously
 - When adding an entry to a BREAD, something should happen (form reset, ...)
 - Test all formfields, translatable and not translatable
+- Formfield options need to be translated
 
 ## Formfields
-- **Select** with translatable labels, multiple/single, adjustable amount of displayed entries when browsing
 - **Dynamic select** which calls a route name
 - **Checkboxes** with translatable labels, adjustable amount of displayed entries when browsing
 - **Radios** with translatable labels
