@@ -1,0 +1,85 @@
+<?php
+
+namespace TCG\Voyager\Formfields;
+
+use TCG\Voyager\Contracts\Bread\Formfield;
+
+class Select extends Formfield
+{
+    public function type(): string
+    {
+        return 'select';
+    }
+
+    public function name(): string
+    {
+        return __('voyager::formfields.select.name');
+    }
+
+    public function listOptions(): array
+    {
+        return [
+            'multiple'    => false,
+        ];
+    }
+
+    public function viewOptions(): array
+    {
+        return [
+            'label'       => '',
+            'description' => '',
+            'multiple'    => false,
+            'options'     => [],
+        ];
+    }
+
+    public function browse($input)
+    {
+        if ($this->options->multiple === true) {
+            return json_decode($input) ?? [];
+        }
+
+        return $input;
+    }
+
+    public function read($input)
+    {
+        if ($this->options->multiple === true) {
+            return json_decode($input) ?? [];
+        }
+
+        return $input;
+    }
+
+    public function edit($input)
+    {
+        if ($this->options->multiple === true) {
+            return json_decode($input) ?? [];
+        }
+
+        return $input;
+    }
+
+    public function update($input, $old)
+    {
+        if ($this->options->multiple === true) {
+            return json_encode($input) ?? '';
+        }
+
+        return $input;
+    }
+
+    public function store($input)
+    {
+        if ($this->options->multiple === true) {
+            return json_encode($input) ?? '';
+        }
+
+        return $input;
+    }
+
+    public function browseDataAsArray()
+    {
+        return true;
+    }
+}

@@ -1,5 +1,6 @@
 let formfields = [
     'Number',
+    'Select',
     'Tags',
     'Text',
 ];
