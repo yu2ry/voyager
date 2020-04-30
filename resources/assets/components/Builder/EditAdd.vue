@@ -175,14 +175,24 @@
                         </button>
                     </div>
                 </dropdown>
-                <button class="button blue small" @click="addLayout(false)">
-                    <icon icon="list-ul" />
-                    <span>{{ __('voyager::builder.add_list') }}</span>
-                </button>
-                <button class="button blue small" @click="addLayout(true)">
-                    <icon icon="apps" />
-                    <span>{{ __('voyager::builder.add_view') }}</span>
-                </button>
+                <dropdown ref="layout_dd" pos="right" class="self-center">
+                    <div>
+                        <a href="#" @click.prevent="addLayout(false)" class="link">
+                            {{ __('voyager::builder.list') }}
+                        </a>
+                        <a href="#" @click.prevent="addLayout(true)" class="link">
+                            {{ __('voyager::builder.view') }}
+                        </a>
+                    </div>
+                    <div slot="opener">
+                        <button class="button blue small">
+                            <icon icon="list-ul" />
+                            <span>
+                                {{ __('voyager::builder.add_layout') }}
+                            </span>
+                        </button>
+                    </div>
+                </dropdown>
                 <button class="button yellow small" @click="renameLayout" :disabled="!currentLayout">
                     <icon icon="pen" />
                     <span>{{ __('voyager::builder.rename_layout') }}</span>

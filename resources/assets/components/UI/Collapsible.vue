@@ -9,6 +9,9 @@
             <slot></slot>
         </div>
     </collapse-transition>
+    <div slot="footer" class="footer" v-if="$slots.footer">
+        <slot name="footer"></slot>
+    </div>
 </card>
 </template>
 <script>
