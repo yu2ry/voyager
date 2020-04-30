@@ -1,8 +1,12 @@
 <template>
     <div>
-        <card :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
+        <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
             <div slot="actions">
                 <div class="flex items-center">
+                    <button class="button blue" @click.stop="toggleFocusMode">
+                        <icon icon="sync" class="focus" :size="4" />
+                        Focus
+                    </button>
                     <button class="button green" @click="loadProperties">
                         <icon icon="sync" class="rotating-ccw" :size="4" v-if="loadingProps" />
                         {{ __('voyager::builder.reload_properties') }}
@@ -129,7 +133,7 @@
                     {{ __('voyager::generic.backup') }}
                 </button>
             </div>
-        </card>
+        </collapsible>
 
         <card :show-header="false">
             <!-- Toolbar -->
@@ -233,7 +237,7 @@
                 v-on:open-options="openOptionsId = $event" />
         </card>
 
-        <collapsible v-if="debug" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible ref="bread_json" v-if="debug" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
@@ -256,6 +260,7 @@ export default {
             currentLayoutName: null,
             openOptionsId: null,
             layoutOptionsOpen: false,
+            focusMode: false,
         };
     },
     methods: {
@@ -467,6 +472,19 @@ export default {
             this.bread.slug = this.get_input_as_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
+        toggleFocusMode: function () {
+            this.focusMode = !this.focusMode;
+
+            if (this.focusMode) {
+                this.$refs.bread_settings.close();
+                this.$refs.bread_json.close();
+                this.$store.closeSidebar();
+            } else {
+                this.$refs.bread_settings.open();
+                this.$refs.bread_json.open();
+                this.$store.openSidebar();
+            }
+        }
     },
     computed: {
         views: function () {

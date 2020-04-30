@@ -45,6 +45,12 @@ var $store = {
     toggleSidebar () {
         this.sidebarOpen = !this.sidebarOpen;
     },
+    openSidebar () {
+        this.sidebarOpen = true;
+    },
+    closeSidebar () {
+        this.sidebarOpen = false;
+    },
     getFormfieldByType (type) {
         return this.formfields.filter(function (formfield) {
             return formfield.type == type;

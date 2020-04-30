@@ -1,10 +1,11 @@
 <template>
-<card :title="title" header-pointer v-on:click-header="toggle">
-    <div slot="actions">
-        <icon :icon="open ? 'angle-up' : 'angle-down'" :size="8"></icon>
+<card :title="title">
+    <div slot="actions" class="inline-flex">
+        <slot name="actions"></slot>
+        <icon :icon="isOpen ? 'angle-up' : 'angle-down'" :size="8" class="ltr:ml-6 rtl:mr-6" @click="toggle"></icon>
     </div>
     <collapse-transition>
-        <div v-show="open">
+        <div v-show="isOpen">
             <slot></slot>
         </div>
     </collapse-transition>
@@ -24,20 +25,28 @@ export default {
     },
     data: function () {
         return {
-            open: this.opened,
+            isOpen: this.opened,
         };
     },
     methods: {
         toggle: function () {
-            this.open = !this.open;
+            this.isOpen = !this.isOpen;
 
-            if (this.open) {
+            if (this.isOpen) {
                 this.$emit('open');
             } else {
                 this.$emit('close');
             }
 
             this.$emit('toggle');
+        },
+        close: function () {
+            this.isOpen = false;
+            this.$emit('close');
+        },
+        open: function () {
+            this.isOpen = true;
+            this.$emit('open');
         }
     }
 };

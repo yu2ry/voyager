@@ -1,6 +1,6 @@
 <template>
 <div class="card">
-    <div class="header" :class="[{'cursor-pointer': headerPointer}]" v-if="showHeader" @click="$emit('click-header')">
+    <div class="header" v-if="showHeader">
         <div class="flex items-center justify-between flex-wrap sm:flex-no-wrap">
             <div class="inline-flex items-center" v-if="!$slots.title">
                 <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
@@ -31,10 +31,6 @@ export default {
         showHeader: {
             type: Boolean,
             default: true,
-        },
-        headerPointer: {
-            type: Boolean,
-            default: false,
         },
         title: {
             type: String,
