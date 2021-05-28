@@ -124,7 +124,9 @@ class VoyagerServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(realpath(__DIR__.'/../migrations'));
         }
 
-        $this->loadAuth();
+        if (!$this->app->runningInConsole() || config('app.env') == 'testing') {
+            $this->loadAuth();
+        }
 
         $this->registerViewComposers();
 
@@ -279,29 +281,21 @@ class VoyagerServiceProvider extends ServiceProvider
     public function loadAuth()
     {
         // DataType Policies
+        if (Schema::hasTable(VoyagerFacade::model('DataType')->getTable())) {
+            $dataType = VoyagerFacade::model('DataType');
+            $dataTypes = $dataType->select('policy_name', 'model_name')->get();
 
-        // This try catch is necessary for the Package Auto-discovery
-        // otherwise it will throw an error because no database
-        // connection has been made yet.
-        try {
-            if (Schema::hasTable(VoyagerFacade::model('DataType')->getTable())) {
-                $dataType = VoyagerFacade::model('DataType');
-                $dataTypes = $dataType->select('policy_name', 'model_name')->get();
-
-                foreach ($dataTypes as $dataType) {
-                    $policyClass = BasePolicy::class;
-                    if (isset($dataType->policy_name) && $dataType->policy_name !== ''
-                        && class_exists($dataType->policy_name)) {
-                        $policyClass = $dataType->policy_name;
-                    }
-
-                    $this->policies[$dataType->model_name] = $policyClass;
+            foreach ($dataTypes as $dataType) {
+                $policyClass = BasePolicy::class;
+                if (isset($dataType->policy_name) && $dataType->policy_name !== ''
+                    && class_exists($dataType->policy_name)) {
+                    $policyClass = $dataType->policy_name;
                 }
 
-                $this->registerPolicies();
+                $this->policies[$dataType->model_name] = $policyClass;
             }
-        } catch (\PDOException $e) {
-            Log::info('No database connection yet in VoyagerServiceProvider loadAuth(). No worries, this is not a problem!');
+
+            $this->registerPolicies();
         }
 
         // Gates
